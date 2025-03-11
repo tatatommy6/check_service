@@ -8,23 +8,19 @@ conn = sqlite3.connect('user.db', check_same_thread=False)
 cursor = conn.cursor()
 flask.secret_key = 'LN$oaYB9-5KBT7G'
 
-#SQLite 데이터베이스 초기화
-def init_db():
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            "number"	INTEGER,
-        );
-    ''')
-    conn.commit()
-    conn.close()
-
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/login')
+@app.route('/login', methods=['GET','POST'])
 def login():
-    return render_template('login.html')
+    if request.method == 'POST':
+        number = int(request.form['number'])
+        password = request.form['password']
+        print(number, password)
+        return redirect("/")
+    else:
+        return render_template('login.html')
 
 if __name__ == '__main__':
     #init_db()
