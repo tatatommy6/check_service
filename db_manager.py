@@ -1,12 +1,12 @@
-from sqlite3 import Connection
+from sqlite3 import Cursor
+from main import conn
 
-conn: Connection
-cursor: Connection.cursor
+cursor: Cursor = conn.cursor()
 
 #SQLite 데이터베이스 초기화
 def init_db():
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS users (
+        CREATE TABLE IF NOT EXISTS students (
             "number"	INTEGER PRIMARY KEY,
             "name"	TEXT,
             "a-class"	TEXT,

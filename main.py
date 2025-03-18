@@ -2,11 +2,13 @@ import flask
 from flask import render_template, request, redirect, send_file, url_for, session
 import sqlite3
 import qrcode
-from PIL import Image
 from io import BytesIO
 import db_manager
+from socket_server import socket_io
+#from PIL import Image
 
 app = flask.Flask(__name__)
+conn = sqlite3.connect('user.db', check_same_thread=False)
 flask.secret_key = 'LN$oaYB9-5KBT7G'
 
 @app.route('/')
@@ -33,7 +35,6 @@ def mypage():
     
 @app.route('/generate_qr', methods=['POST'])
 def generate_qr():
-    #number = session['number']
     # QR 코드 이미지 생성
     qr = qrcode.QRCode(
         version=1,
@@ -41,7 +42,7 @@ def generate_qr():
         box_size=10,
         border=4,
     )
-    qr.add_data("Hello, World!")
+    qr.add_data(session['number'])
     qr.make(fit=True)
     # 이미지 저장 (BytesIO)
     img = qr.make_image(fill="black", back_color="white")
@@ -53,7 +54,6 @@ def generate_qr():
     return send_file(img_bytes, mimetype="image/png")
 
 if __name__ == '__main__':
-    db_manager.conn = sqlite3.connect('user.db', check_same_thread=False)
-    db_manager.cursor = db_manager.conn.cursor()
     #db_manager.init_db()
-    app.run(debug=True, host='0.0.0.0')
+    #app.run(debug=True, host='0.0.0.0')
+    socket_io.run(app, debug=True, port=5000)
