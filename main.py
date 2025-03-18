@@ -4,12 +4,12 @@ import sqlite3
 import qrcode
 from io import BytesIO
 import db_manager
-from socket_server import socket_io
+# from socket_server import socket_io
 #from PIL import Image
 
 app = flask.Flask(__name__)
 conn = sqlite3.connect('user.db', check_same_thread=False)
-flask.secret_key = 'LN$oaYB9-5KBT7G'
+app.secret_key = 'LN$oaYB9-5KBT7G'
 
 @app.route('/')
 def index():
@@ -53,7 +53,20 @@ def generate_qr():
     # 이미지 바이너리 반환
     return send_file(img_bytes, mimetype="image/png")
 
+@app.route('/login', methods=['GET','POST'])
+def change_password():
+    if request.method == 'POST':
+        old_password = request.form['old_password']
+        new_password = request.form['new_password']
+        if db_manager.change_password(session['number'], old_password, new_password):
+            return '비밀번호 변경 성공', 200
+        else:
+            return '비밀번호 변경 실패', 401
+    else:
+        return render_template('change_password.html')
+
+
 if __name__ == '__main__':
     #db_manager.init_db()
-    #app.run(debug=True, host='0.0.0.0')
-    socket_io.run(app, debug=True, port=5000)
+    app.run(debug=True, host='0.0.0.0')
+    # socket_io.run(app, debug=True, port=5000)

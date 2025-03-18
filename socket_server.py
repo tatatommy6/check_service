@@ -1,4 +1,4 @@
-from flask_socketio import SocketIO, send
+# from flask_socketio import So send
 from main import app
 
 socket_io = SocketIO(app)
