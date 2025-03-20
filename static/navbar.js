@@ -19,6 +19,7 @@ navbar.innerHTML = `<div class="container-fluid">
                     <li class="nav-item">
                         <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                     </li>
+                    </li>
                 </ul>
             </div>
         </div>`;

@@ -56,14 +56,20 @@ def generate_qr():
 @app.route('/login', methods=['GET','POST'])
 def change_password():
     if request.method == 'POST':
-        old_password = request.form['old_password']
-        new_password = request.form['new_password']
-        if db_manager.change_password(session['number'], old_password, new_password):
-            return '비밀번호 변경 성공', 200
+        new_password = request.form['new_password'] # 이러면 되지 않을까
+        if db_manager.change_password(session['number'], new_password):
+            return '비밀번호 변경 성공', 200 
         else:
             return '비밀번호 변경 실패', 401
     else:
         return render_template('change_password.html')
+
+@app.route('/change_password', methods=['POST','GET'])
+def change_password_view():
+    if request.method == 'GET':
+        return render_template('change_password.html')
+    else:
+        return render_template('change_password_view.html')
 
 
 if __name__ == '__main__':
