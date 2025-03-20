@@ -28,12 +28,11 @@
             </div>
             <div id="profile" class="tab-content">
                 <h3 class="fw-bold">내 프로필</h3>
-                <p class="text-muted">이름: 홍길동</p>
-                <p class="text-muted">학번: 30203</p>
-                <p class="text-muted">이메일: user@example.com</p>
+                <p class="text-muted">이름: {{ name }}</p>
+                <p class="text-muted">학번: {{ number }}</p>
                 <button id="generateBtn" class="btn btn-success mt-3">QR 코드 생성</button>
                 <br>
-                <img id="qrImage" alt="QR Code" class="mt-2" />
+                <img id="qrImage" alt="QR Code" class="mt-2 d-none" />
             </div>
             <div id="settings" class="tab-content d-none">
                 <h3 class="fw-bold">설정</h3>

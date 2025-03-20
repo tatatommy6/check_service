@@ -31,7 +31,11 @@ def login():
     
 @app.route('/mypage')
 def mypage():
-    return render_template('mypage.html')
+    if 'number' not in session:
+        return redirect(url_for('login'))
+    user_info = db_manager.get_user_info(session['number']) # 사용자 정보 가져오기
+    print(user_info)
+    return render_template('mypage.html',number=user_info[0],name=user_info[1],a_class=user_info[2],b_class=user_info[3],c_class=user_info[4],d_class=user_info[5])
     
 @app.route('/generate_qr', methods=['POST'])
 def generate_qr():
@@ -42,7 +46,7 @@ def generate_qr():
         box_size=10,
         border=4,
     )
-    qr.add_data(session['number'])
+    qr.add_data("http://192.168.1.231:5000/checked/"+session['number'])
     qr.make(fit=True)
     # 이미지 저장 (BytesIO)
     img = qr.make_image(fill="black", back_color="white")
@@ -56,15 +60,19 @@ def generate_qr():
 @app.route('/change_password', methods=['GET','POST'])
 def change_password():
     if request.method == 'POST':
-        new_password = request.form['new_password'] # 이러면 되지 않을까
+        new_password = request.form['new_password'] # 새로운 비밀번호
         if db_manager.change_password(session['number'], new_password):
             return '비밀번호 변경 성공', 200 
         else:
             return '비밀번호 변경 실패', 401
     else:
         return render_template('change_password.html')
+    
+@app.route('/checked/<string:number>')
+def checked(number):
+    return f'{number}님 출석 완료'
 
 if __name__ == '__main__':
     #db_manager.init_db()
     app.run(debug=True, host='0.0.0.0')
-    # socket_io.run(app, debug=True, port=5000)
+    

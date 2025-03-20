@@ -29,4 +29,8 @@ def change_password(number: str , new_password: str) -> bool:
     cursor.execute("UPDATE students SET password = ? WHERE number = ?", (new_password, number))
     conn.commit()
     cursor.execute("SELECT * FROM students WHERE number = ? AND password = ?", (number, new_password))
-    return cursor.fetchone() is not None # 아마도 구현함 
+    return cursor.fetchone() is not None # 아마도 구현함
+
+def get_user_info(number:str) -> list[str]:
+    cursor.execute("SELECT * FROM students WHERE number = ?", (number,))
+    return cursor.fetchone()

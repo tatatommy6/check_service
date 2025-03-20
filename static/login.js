@@ -11,6 +11,7 @@ async function login_rq() {
   console.log(response);
   if (response.ok) {
     alert("로그인 성공");
+    location.href = "/mypage";
   } else {
     alert("로그인 실패");
   }

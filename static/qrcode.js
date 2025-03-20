@@ -8,7 +8,9 @@ document.getElementById("generateBtn").addEventListener("click", async () => {
 
         // Blob을 URL로 변환하여 이미지 표시
         const imgUrl = URL.createObjectURL(blob);
-        document.getElementById("qrImage").src = imgUrl;
+        let qrImage = document.getElementById("qrImage");
+        qrImage.src = imgUrl;
+        qrImage.classList.remove("d-none");
     } else {
         alert("QR 코드 생성에 실패했습니다.");
     }
