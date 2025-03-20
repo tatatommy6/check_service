@@ -53,7 +53,7 @@ def generate_qr():
     # 이미지 바이너리 반환
     return send_file(img_bytes, mimetype="image/png")
 
-@app.route('/login', methods=['GET','POST'])
+@app.route('/change_password', methods=['GET','POST'])
 def change_password():
     if request.method == 'POST':
         new_password = request.form['new_password'] # 이러면 되지 않을까
@@ -63,14 +63,6 @@ def change_password():
             return '비밀번호 변경 실패', 401
     else:
         return render_template('change_password.html')
-
-@app.route('/change_password', methods=['POST','GET'])
-def change_password_view():
-    if request.method == 'GET':
-        return render_template('change_password.html')
-    else:
-        return render_template('change_password_view.html')
-
 
 if __name__ == '__main__':
     #db_manager.init_db()
