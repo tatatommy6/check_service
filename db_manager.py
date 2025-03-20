@@ -24,6 +24,9 @@ def login(number: str, password: str) -> bool:
     cursor.execute("SELECT * FROM students WHERE number = ? AND password = ?", (number, password))
     return cursor.fetchone() is not None  # 결과가 있으면 True, 없으면 False 반환
 
-def change_password(number: str , new_password: str,) -> bool:
+def change_password(number: str , new_password: str) -> bool:
+    print(number, new_password)
     cursor.execute("UPDATE students SET password = ? WHERE number = ?", (new_password, number))
+    conn.commit()
+    cursor.execute("SELECT * FROM students WHERE number = ? AND password = ?", (number, new_password))
     return cursor.fetchone() is not None # 아마도 구현함 
