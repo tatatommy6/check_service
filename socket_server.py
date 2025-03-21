@@ -1,17 +1,7 @@
-# from flask_socketio import So send
-from main import app
+import socket
+import json
+import sqlite3
+import db_manager
 
-socket_io = SocketIO(app)
-
-@socket_io.on("message")
-def request(message):
-    print("message : "+ message)
-    to_client = dict()
-    if message == 'new_connect':
-        to_client['message'] = "새로운 유저가 난입하였다!!"
-        to_client['type'] = 'connect'
-    else:
-        to_client['message'] = message
-        to_client['type'] = 'normal'
-    # emit("response", {'data': message['data'], 'username': session['username']}, broadcast=True)
-    send(to_client, broadcast=True)
+# 소켓 서버 설정
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

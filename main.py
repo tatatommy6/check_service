@@ -35,7 +35,20 @@ def mypage():
         return redirect(url_for('login'))
     user_info = db_manager.get_user_info(session['number']) # 사용자 정보 가져오기
     print(user_info)
-    return render_template('mypage.html',number=user_info[0],name=user_info[1],a_class=user_info[2],b_class=user_info[3],c_class=user_info[4],d_class=user_info[5])
+
+    timetable = [['체육', user_info[4], '언어와 매체', user_info[3], '사회'],
+                 [user_info[2], '영어', user_info[3], '영어', '미술'],
+                 [user_info[3], '음악', '미적분', user_info[4], '미술'],
+                 ['언어와 매체', user_info[3], user_info[5], '언어와 매체', user_info[4]],
+                 ['창체', '공강', '담임자율/동아리', '체육', '미적분'],
+                 [user_info[4], user_info[2], '담임자율/동아리', user_info[2], user_info[5]],
+                 [user_info[5], '미적분', '-', user_info[5], '영어']] # 시간표 가독성 수준
+
+    return render_template('mypage.html',
+        number=user_info[0],
+        name=user_info[1],
+        timetable=timetable
+    )
     
 @app.route('/generate_qr', methods=['POST'])
 def generate_qr():
@@ -46,11 +59,14 @@ def generate_qr():
         box_size=10,
         border=4,
     )
-    qr.add_data("http://192.168.1.231:5000/checked/"+session['number'])
+
+    # 서버의 호스트 URL 동적으로 생성
+    host_url = request.host_url.rstrip('/')
+    qr.add_data(f"{host_url}/checked/{session['number']}")
     qr.make(fit=True)
-    # 이미지 저장 (BytesIO)
+
     img = qr.make_image(fill="black", back_color="white")
-    img_bytes = BytesIO()
+    img_bytes = BytesIO()   # 이미지 저장 (BytesIO)
     img.save(img_bytes, format="PNG")
     img_bytes.seek(0)
 

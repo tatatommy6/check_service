@@ -42,6 +42,33 @@
             <div id="history" class="tab-content d-none">
                 <h3 class="fw-bold">시간표</h3>
                 <p class="text-muted">개인 시간표가 여기에 표시됩니다.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>교시</th>
+                            <th>월요일</th>
+                            <th>화요일</th>
+                            <th>수요일</th>
+                            <th>목요일</th>
+                            <th>금요일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for time in timetable %}
+                            {% if loop.index == 4 %}
+                                <tr class="lunch">
+                                    <td colspan="6">점심 시간</td>
+                                </tr>
+                            {% endif %}
+                            <tr>
+                                <td>{{ loop.index }}교시</td>
+                                {% for subject in time %}
+                                    <td>{{ subject }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
