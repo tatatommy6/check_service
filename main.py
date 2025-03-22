@@ -37,12 +37,12 @@ def mypage():
     print(user_info)
 
     timetable = [['체육', user_info[4], '언어와 매체', user_info[3], '사회'],
-                 [user_info[2], '영어', user_info[3], '영어', '미술'],
-                 [user_info[3], '음악', '미적분', user_info[4], '미술'],
-                 ['언어와 매체', user_info[3], user_info[5], '언어와 매체', user_info[4]],
-                 ['창체', '공강', '담임자율/동아리', '체육', '미적분'],
-                 [user_info[4], user_info[2], '담임자율/동아리', user_info[2], user_info[5]],
-                 [user_info[5], '미적분', '-', user_info[5], '영어']] # 시간표 가독성 수준
+                [user_info[2], '영어', user_info[3], '영어', '미술'],
+                [user_info[3], '음악', '미적분', user_info[4], '미술'],
+                ['언어와 매체', user_info[3], user_info[5], '언어와 매체', user_info[4]],
+                ['창체', '공강', '담임자율/동아리', '체육', '미적분'],
+                [user_info[4], user_info[2], '담임자율/동아리', user_info[2], user_info[5]],
+                [user_info[5], '미적분', '-', user_info[5], '영어']] # 시간표 가독성 수준
 
     return render_template('mypage.html',
         number=user_info[0],
