@@ -8,7 +8,7 @@ import db_manager
 #from PIL import Image
 
 app = flask.Flask(__name__)
-conn = sqlite3.connect('user.db', check_same_thread=False)
+conn = sqlite3.connect('EduTrack.db', check_same_thread=False)
 app.secret_key = 'LN$oaYB9-5KBT7G'
 
 @app.route('/')
@@ -84,9 +84,9 @@ def change_password():
     else:
         return render_template('change_password.html')
     
-@app.route('/checked/<string:number>')
-def checked(number):
-    return f'{number}님 출석 완료'
+@app.route('/checked/<string:number>/<string:classroom>')
+def checked(number, classroom):
+    return f'{number}님 {classroom} 출석 완료'
 
 if __name__ == '__main__':
     #db_manager.init_db()
