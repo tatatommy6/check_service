@@ -4,6 +4,8 @@ import sqlite3
 import qrcode
 from io import BytesIO
 import db_manager
+import datetime
+import timetable as tt
 
 app = flask.Flask(__name__)
 conn = sqlite3.connect('EduTrack.db', check_same_thread=False)
@@ -19,6 +21,7 @@ def login():
         number = request.form['number']
         password = request.form['password']
         print(number, password)
+        
         if db_manager.login(number, password):
             session['number'] = number
             return '로그인 성공', 200
@@ -31,22 +34,15 @@ def login():
 def mypage():
     if 'number' not in session:
         return redirect(url_for('login'))
+    
     user_info = db_manager.get_user_info(session['number']) # 사용자 정보 가져오기
-    print(user_info)
+    class_name = user_info[1][1:3] # 사용자의 반 가져오기
+    print(class_name)
+    if class_name == '09':
+        timetable = tt.timetable_for_1(*user_info[2:6])
+    timetable = tt.timetable_for_1(*user_info[2:6]) # 시간표 생성
 
-    timetable = [['체육', user_info[4], '언어와 매체', user_info[3], '사회'],
-                [user_info[2], '영어', user_info[3], '영어', '미술'],
-                [user_info[3], '음악', '미적분', user_info[4], '미술'],
-                ['언어와 매체', user_info[3], user_info[5], '언어와 매체', user_info[4]],
-                ['창체', '공강', '담임자율/동아리', '체육', '미적분'],
-                [user_info[4], user_info[2], '담임자율/동아리', user_info[2], user_info[5]],
-                [user_info[5], '미적분', '-', user_info[5], '영어']] # 시간표 가독성 수준
-
-    return render_template('mypage.html',
-        number=user_info[0],
-        name=user_info[1],
-        timetable=timetable
-    )
+    return render_template('mypage.html', number=user_info[0], name=user_info[1], timetable=timetable)
     
 @app.route('/generate_qr', methods=['POST'])
 def generate_qr():
@@ -91,8 +87,13 @@ def checked():
     print(number, time, status, classroom)
 
     if status == '출석':
-        
+        date = datetime.datetime.today().weekday()
+        if date == 5 or date == 6:
+            return '주말에는 출석 체크를 할 수 없습니다.', 400
+        choosed_subject = db_manager.get_user_info(number)[2:7]
     elif status == '타교실':
+        print(classroom)
+    elif status == '지각':
         pass
     else:
         return '잘못된 요청', 400
