@@ -4,8 +4,6 @@ import sqlite3
 import qrcode
 from io import BytesIO
 import db_manager
-# from socket_server import socket_io
-#from PIL import Image
 
 app = flask.Flask(__name__)
 conn = sqlite3.connect('EduTrack.db', check_same_thread=False)
@@ -84,9 +82,21 @@ def change_password():
     else:
         return render_template('change_password.html')
     
-@app.route('/checked/<string:number>/<string:classroom>')
-def checked(number, classroom):
-    return f'{number}님 {classroom} 출석 완료'
+@app.route('/checked', methods=['POST'])
+def checked():
+    number = request.form['number']
+    time = request.form['time']
+    status = request.form['status']
+    classroom = request.form['class']
+    print(number, time, status, classroom)
+
+    if status == '출석':
+        
+    elif status == '타교실':
+        pass
+    else:
+        return '잘못된 요청', 400
+    return '출석 체크 완료', 201
 
 if __name__ == '__main__':
     #db_manager.init_db()
