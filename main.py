@@ -36,7 +36,7 @@ def mypage():
         return redirect(url_for('login'))
     
     user_info = db_manager.get_user_info(session['number']) # 사용자 정보 가져오기
-    class_name = user_info[1][1:3] # 사용자의 반 가져오기
+    class_name = str(user_info[0])[1:3] # 사용자의 반 가져오기
     print(class_name)
     if class_name == '09':
         timetable = tt.timetable_for_1(*user_info[2:6])
