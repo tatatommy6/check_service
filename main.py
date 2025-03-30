@@ -1,11 +1,12 @@
 import flask
 from flask import render_template, request, redirect, send_file, url_for, session
 import sqlite3
-import qrcode
+import os
 from io import BytesIO
 import db_manager
 import datetime
 import timetable as tt
+import makeqr
 
 app = flask.Flask(__name__)
 conn = sqlite3.connect('EduTrack.db', check_same_thread=False)
@@ -46,26 +47,33 @@ def mypage():
     
 @app.route('/generate_qr', methods=['POST'])
 def generate_qr():
-    # QR 코드 이미지 생성
-    qr = qrcode.QRCode(
-        version=1,
-        error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=10,
-        border=4,
-    )
+    # # QR 코드 이미지 생성
+    # qr = qrcode.QRCode(
+    #     version=1,
+    #     error_correction=qrcode.constants.ERROR_CORRECT_L,
+    #     box_size=10,
+    #     border=4,
+    # )
 
-    # 서버의 호스트 URL 동적으로 생성
-    host_url = request.host_url.rstrip('/')
-    qr.add_data(f"{host_url}/checked/{session['number']}")
-    qr.make(fit=True)
+    # # 서버의 호스트 URL 동적으로 생성
+    # host_url = request.host_url.rstrip('/')
+    # qr.add_data(f"{host_url}/checked/{session['number']}")
+    # qr.make(fit=True)
 
-    img = qr.make_image(fill="black", back_color="white")
-    img_bytes = BytesIO()   # 이미지 저장 (BytesIO)
-    img.save(img_bytes, format="PNG")
-    img_bytes.seek(0)
+    # img = qr.make_image(fill="black", back_color="white")
+    # img_bytes = BytesIO()   # 이미지 저장 (BytesIO)
+    # img.save(img_bytes, format="PNG")
+    # img_bytes.seek(0)
+    # return send_file(img_bytes, mimetype="image/png")
+    # 1. 세션에 로그인된 사용자 정보가 있는지 확인
+    # 세션에서 사용자 정보 가져오기
 
-    # 이미지 바이너리 반환
-    return send_file(img_bytes, mimetype="image/png")
+    #내가 바꾼 코드
+    filepath = makeqr.gen_qr()
+    if os.path.exists(filepath):
+        return send_file(filepath, mimetype='image/png')
+    else:
+        return {"error": "QR 코드 생성 실패"}, 500
 
 @app.route('/change_password', methods=['GET','POST'])
 def change_password():
