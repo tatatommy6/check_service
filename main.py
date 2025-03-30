@@ -47,14 +47,6 @@ def mypage():
     
 @app.route('/generate_qr', methods=['POST'])
 def generate_qr():
-    # # QR 코드 이미지 생성
-    # qr = qrcode.QRCode(
-    #     version=1,
-    #     error_correction=qrcode.constants.ERROR_CORRECT_L,
-    #     box_size=10,
-    #     border=4,
-    # )
-
     # # 서버의 호스트 URL 동적으로 생성
     # host_url = request.host_url.rstrip('/')
     # qr.add_data(f"{host_url}/checked/{session['number']}")
