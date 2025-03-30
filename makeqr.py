@@ -2,6 +2,7 @@ import qrcode
 import json
 from datetime import datetime
 
+#나중에 이걸로 바꾸면됨
 # def gen_qr(name, student_id, classroom="국어3"):
 def gen_qr(classroom="국어3"):
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
