@@ -4,6 +4,105 @@ body {
   height: 100vh;
 }
 
+.container1{
+  display: flex;
+  justify-content: space-between; /* 양쪽 끝으로 배치 */
+  align-items: center; /* 세로로 가운데 정렬 */
+  height: 60px;
+}
+
+
+.orange-circle {
+  margin-top: 10px;
+  width: 60px; /* 원의 가로 크기 */
+  height: 60px; /* 원의 세로 크기 */
+  background-color: #FCC29A; /* 주황색 배경 */
+  border-radius: 50%; /* 원 모양을 만들기 위해 border-radius를 50%로 설정 */
+  margin-left: 50px;
+}
+
+.custom-btn{
+  height: 43px;
+  width: 99px;
+  margin-right: 50px;
+  margin-top: 10px;
+  background-color: #13829B;
+}
+
+.navbar {
+  background-color: white;
+  padding: 10px 0;
+}
+
+.btn-group {
+  display: flex; /* 버튼들을 가로로 배치 */
+}
+
+#main {
+  margin-right: 20px; /* Main 버튼에 오른쪽 여백 */
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+#features {
+  margin-right: 20px; /* Features 버튼에 오른쪽 여백 */
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+#login {
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.btn-group .btn {
+  padding: 10px 20px;
+  font-size: 10px;
+  color: black;
+  border-radius: 0;
+  transition: color 0.3s;
+}
+
+.btn-group .btn.active {
+  color: white;
+  background-color: #007bff;
+}
+
+.active-bar {
+  width: 100px;
+  height: 4px;
+  background-color: #000000; /* ㅅㅂ 왜 안바뀌노? */
+  /* 갑자기 마진이 들어가는데 왜그런지 모르겠고요 */
+  transition: left 0.3s ease-in-out;
+  position: absolute;
+  bottom: 0;
+}
+
+.navbar .btn {
+  position: relative;
+}
+
+.nav-pills .nav-link {
+  padding: 10px 20px;
+  font-size: 10px;
+  color: black;
+  border-radius: 0;
+  transition: color 0.3s;
+}
+
+.nav-pills .nav-link.active {
+  color: white;
+  background-color: #007bff;
+}
+
+.navbar .nav-item {
+  position: relative;
+}
+
+#line{
+  margin-top: 8px;
+}
+
 .login-container {
   display: flex;
   background: white;
@@ -29,12 +128,6 @@ body {
   width: 50%;
   margin-bottom: 95px;
 }
-
-/* .logo {
-  width:200px;
-  margin-top: -60px;
-  
-} */
 
 .classroom-image {
   width: 70%;
@@ -63,7 +156,7 @@ body {
   margin: 5px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 16px;
+  font-size: 10px;
 }
 
 .login-button {
@@ -73,7 +166,7 @@ body {
   color: white;
   border: none;
   border-radius: 5px;
-  font-size: 16px;
+  font-size: 10px;
   cursor: pointer;
   margin-top: 10px;
 }
