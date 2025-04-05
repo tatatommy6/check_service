@@ -7,38 +7,31 @@ from io import BytesIO
 
 cursor = conn.cursor()
 
-def timetable_for_1(A_class, B_class, C_class, D_class): # 사실 9반
-    timetable = [['체육', C_class, '언어와 매체', C_class, '사회'],
-                [A_class, '영어', B_class, '영어', '미술'],
-                [B_class, '음악', '미적분', C_class, '미술'],
-                ['언어와 매체', B_class, D_class, '언어와 매체', C_class],
-                ['창체', '공강', '담임자율/동아리', '체육', '미적분'],
-                [C_class, A_class, '담임자율/동아리', A_class, D_class],
-                [D_class, '미적분', '-', D_class, '영어']] # 시간표 가독성 수준
-    
-    return timetable
-
-def timetable_for_2(A_class, B_class, C_class, D_class): # 사실 9반
-    timetable = [['체육', C_class, '언어와 매체', C_class, '사회'],
-                [A_class, '영어', B_class, '영어', '미술'],
-                [B_class, '음악', '미적분', C_class, '미술'],
-                ['언어와 매체', B_class, D_class, '언어와 매체', C_class],
-                ['창체', '공강', '담임자율/동아리', '체육', '미적분'],
-                [C_class, A_class, '담임자율/동아리', A_class, D_class],
-                [D_class, '미적분', '-', D_class, '영어']] # 시간표 가독성 수준
-    
-    return timetable
-
-def timetable_for_9(A_class, B_class, C_class, D_class):
-    timetable = [['체육', C_class, '언어와 매체', C_class, '사회'],
-                [A_class, '영어', B_class, '영어', '미술'],
-                [B_class, '음악', '미적분', C_class, '미술'],
-                ['언어와 매체', B_class, D_class, '언어와 매체', C_class],
-                ['창체', '공강', '담임자율/동아리', '체육', '미적분'],
-                [C_class, A_class, '담임자율/동아리', A_class, D_class],
-                [D_class, '미적분', '-', D_class, '영어']] # 시간표 가독성 수준
-    
-    return timetable
+def generate_timetable(A_class, B_class, C_class, D_class, class_number:int): 
+    timetable = {
+        1: [['체육', C_class, '언어와 매체', C_class, '사회'],
+            [A_class, '영어', B_class, '영어', '미술'],
+            [B_class, '음악', '미적분', C_class, '미술'],
+            ['언어와 매체', B_class, D_class, '언어와 매체', C_class],
+            ['창체', '공강', '담임자율/동아리', '체육', '미적분'],
+            [C_class, A_class, '담임자율/동아리', A_class, D_class],
+            [D_class, '미적분', '-', D_class, '영어']],
+        2: [['체육', C_class, '언어와 매체', C_class, '사회'],
+            [A_class, '영어', B_class, '영어', '미술'],
+            [B_class, '음악', '미적분', C_class, '미술'],
+            ['언어와 매체', B_class, D_class, '언어와 매체', C_class],
+            ['창체', '공강', '담임자율/동아리', '체육', '미적분'],
+            [C_class, A_class, '담임자율/동아리', A_class, D_class],
+            [D_class, '미적분', '-', D_class, '영어']],
+        9: [['체육', C_class, '언어와 매체', C_class, '사회'],
+            [A_class, '영어', B_class, '영어', '미술'],
+            [B_class, '음악', '미적분', C_class, '미술'],
+            ['언어와 매체', B_class, D_class, '언어와 매체', C_class],
+            ['창체', '공강', '담임자율/동아리', '체육', '미적분'],
+            [C_class, A_class, '담임자율/동아리', A_class, D_class],
+            [D_class, '미적분', '-', D_class, '영어']]
+    }
+    return timetable.get(class_number, [])
 
 @app.route('/mypage')
 def mypage():
@@ -46,9 +39,8 @@ def mypage():
         return redirect(url_for('login'))
     
     user_info = get_user_info(session['number'])
-    class_name = str(user_info[0])[1:3]
-    print(class_name)
-    timetable = timetable_for_1(*user_info[2:6])
+    class_num = str(user_info[0])[1:3]
+    timetable = generate_timetable(*user_info[2:6],int(class_num))
     return render_template('mypage.html', number=user_info[0], name=user_info[1], timetable=timetable)
 
 @app.route('/generate_qr', methods=['POST'])
