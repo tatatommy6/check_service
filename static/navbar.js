@@ -21,7 +21,7 @@ document.querySelectorAll('.btn').forEach((button) => {
         
         const activeBar = document.querySelector('.active-bar');
         const buttonRect = this.getBoundingClientRect();
-        const left_position = buttonRect.left - 385.4875183105469; // 385.4875183105469는 원래 위치
+        const left_position = buttonRect.left - document.getElementsByClassName("navbar")[0].getBoundingClientRect().left;
         console.log(left_position); // 대체 뭔지 까보자
         
         activeBar.style.left = `${left_position}px`;
